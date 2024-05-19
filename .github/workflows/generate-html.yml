@@ -1,0 +1,29 @@
+mkdir -p .github/workflows
+touch .github/workflows/generate-html.yml
+
+name: Generate HTML
+
+on:
+  push:
+    paths:
+      - index.pdf
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Generate HTML
+      run: |
+        echo "Generating index.html"
+        # This step can be customized to include more advanced PDF to HTML conversion
+        cp index.html public/index.html
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
